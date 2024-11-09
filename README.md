@@ -18,7 +18,7 @@ One file is changed and there is one test project that depends on the file:
 find-tests '["A/A.Common/Class.cs"]' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}]}'
 ```
 Returns:
-```json
+```
 'A/A.Common.Tests/A.Common.Tests.csproj'
 ```
 
@@ -27,7 +27,7 @@ One file is changed and there are two test projects that depend on the file, one
 find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'
 ```
 Returns:
-```json
+```
 'A/A.Common.Tests/A.Common.Tests.csproj' 'B.Logic.Tests/B.Logic.Tests.csproj'
 ```
 
