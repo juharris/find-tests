@@ -31,14 +31,13 @@ jobs:
         python -m pip install --upgrade pip
         curl -sSL https://install.python-poetry.org | python - --version 1.8.2
         poetry install
-
-        # Test CLI (needs to be done after `poetry install` because it's a script)
-        paths=`find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'`
-        [ "$paths" = "'A/A.Common.Tests/A.Common.Tests.csproj' 'B.Logic.Tests/B.Logic.Tests.csproj'" ]
-
     - name: Test with pytest
       run: |
         poetry run pytest
     - name: Check Code
       run: |
         poetry run autopep8 --jobs 0 --exit-code --diff .
+    - name: Test CLI
+      run: |
+        paths=`poetry run python -m find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'`
+        [ "$paths" = "'A/A.Common.Tests/A.Common.Tests.csproj' 'B.Logic.Tests/B.Logic.Tests.csproj'" ]
