@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "find-tests"
+version = "0.1.0"
+description = "Finds tests projects."
+authors = ["Justin D. Harris <juharris@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = true
+packages = [
+    { include = "src" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+injector = "^0.22.0"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.3.1"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.autopep8]
+max_line_length = 140
+# Indent using 4 spaces because it's hard to get autopep8 to use tabs.
+# Even with ignoring W191, it still indents with spaces when wrapping lines.
+indent_size = 4
+recursive = true
+aggressive = 3
