@@ -3,25 +3,25 @@ from injector import Injector
 from find_test_projects import TestFinder
 from graph import ProjectDependencyGraph
 
+inj = Injector()
+finder = inj.get(TestFinder)
+graph: ProjectDependencyGraph = {
+    "References": [
+        {"From": "\\B\\B.Common\\B.Common.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
+        {"From": "\\A\\A.Common.Tests\\A.Common.Tests.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
+        {"From": "\\C\\C.Logic\\C.Logic.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
+        {"From": "\\B\\B.Common.Tests\\B.Common.Tests.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
+        {"From": "\\tests\\Many.Tests\\Many.Tests.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
+        {"From": "\\tests\\Many.Tests\\Many.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
+        {"From": "\\tests\\Also.Tests\\Also.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
+    ]
+}
 
-def test_find_tests():
-    inj = Injector()
-    finder = inj.get(TestFinder)
-    graph: ProjectDependencyGraph = {
-        "References": [
-            {"From": "\\B\\B.Common\\B.Common.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
-            {"From": "\\A\\A.Common.Tests\\A.Common.Tests.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
-            {"From": "\\C\\C.Logic\\C.Logic.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
-            {"From": "\\B\\B.Common.Tests\\B.Common.Tests.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
-            {"From": "\\tests\\Many.Tests\\Many.Tests.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
-            {"From": "\\tests\\Many.Tests\\Many.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
-            {"From": "\\tests\\Also.Tests\\Also.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
-        ]
-    }
+graph["Projects"] = [{"Id": p} for p in set(project["From"] for project in graph["References"])
+                     | set(project["To"] for project in graph["References"])]
 
-    graph["Projects"] = [{"Id": p} for p in set(project["From"] for project in graph["References"])
-                         | set(project["To"] for project in graph["References"])]
 
+def test_find_test_projects_simple():
     file_paths = ["A/A.Common/A.Common.cs"]
     assert finder.find_test_projects(file_paths, graph) == [
         "A/A.Common.Tests/A.Common.Tests.csproj",
@@ -55,5 +55,17 @@ def test_find_tests():
     assert finder.find_test_projects(file_paths, graph) == [
         "tests/Many.Tests/Many.Tests.csproj",
         "tests/Also.Tests/Also.Tests.csproj",
+        "B/B.Common.Tests/B.Common.Tests.csproj",
+    ]
+
+
+def test_find_test_projects_none():
+    file_paths = ["none"]
+    assert finder.find_test_projects(file_paths, graph) == []
+
+
+def test_find_test_projects_for_test_file():
+    file_paths = ["B/B.Common.Tests/WhateverTests.cs"]
+    assert finder.find_test_projects(file_paths, graph) == [
         "B/B.Common.Tests/B.Common.Tests.csproj",
     ]

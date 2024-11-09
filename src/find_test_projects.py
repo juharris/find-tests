@@ -1,10 +1,20 @@
+"""
+Module for finding test projects affected by changes in source files.
+"""
+
 from collections import defaultdict, deque
 from pathlib import Path
 from graph import ProjectDependencyGraph
 
 
 class TestFinder:
-    def _get_project_for_file(self, file_path: str, project_folder_to_project_path: dict[Path, Path]) -> Path | None:
+    """
+    Finds test projects affected by changes in source files.
+    """
+
+    def _get_project_for_file(self,
+                              file_path: str,
+                              project_folder_to_project_path: dict[Path, Path]) -> Path | None:
         file_path = Path(file_path)
         for project_folder, project_path in project_folder_to_project_path.items():
             if file_path.is_relative_to(project_folder):
@@ -48,7 +58,6 @@ class TestFinder:
         for file_path in file_paths:
             project = self._get_project_for_file(file_path, project_folder_to_project_path)
             if project is None:
-                # TODO Return error?
                 continue
             queue = deque([project])
 
