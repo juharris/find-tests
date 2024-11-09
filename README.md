@@ -79,7 +79,7 @@ conda activate find-tests
 # Testing
 Run the automated tests:
 ```shell
-PYTHONPATH=src pytest
+pytest
 ```
 
 # Linting

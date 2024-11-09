@@ -19,7 +19,15 @@ graph["Projects"] = [{"Id": p} for p in set(project["From"] for project in graph
 
 
 def test_find_test_projects_simple():
-    file_paths = ["A/A.Common/A.Common.cs"]
+    file_paths = ["A/A.Common/Common.cs"]
+    assert finder.find_test_projects(file_paths, graph) == [
+        "A/A.Common.Tests/A.Common.Tests.csproj",
+        "B/B.Common.Tests/B.Common.Tests.csproj",
+        "tests/Many.Tests/Many.Tests.csproj",
+        "tests/Also.Tests/Also.Tests.csproj",
+    ]
+
+    file_paths = ["A/A.Common/Subdir1/Subdir2/Common.cs"]
     assert finder.find_test_projects(file_paths, graph) == [
         "A/A.Common.Tests/A.Common.Tests.csproj",
         "B/B.Common.Tests/B.Common.Tests.csproj",
