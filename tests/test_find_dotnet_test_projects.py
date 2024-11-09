@@ -65,6 +65,8 @@ def test_find_test_projects_simple():
 
 
 def test_find_test_projects_none():
+    # TODO There needs to be some indication that no tests were found for a file.
+    # Raise an exception?
     file_paths = ["none"]
     assert finder.find_test_projects(file_paths, graph) == []
 
