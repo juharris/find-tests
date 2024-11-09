@@ -4,7 +4,7 @@ Module for finding test projects affected by changes in source files.
 
 from collections import defaultdict, deque
 from pathlib import Path
-from graph import ProjectDependencyGraph
+from .graph import ProjectDependencyGraph
 
 
 class DotNetTestFinder:

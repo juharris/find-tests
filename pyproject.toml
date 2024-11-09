@@ -28,3 +28,6 @@ max_line_length = 140
 indent_size = 4
 recursive = true
 aggressive = 3
+
+[tool.poetry.scripts]
+find-tests = "src.cli:main"
