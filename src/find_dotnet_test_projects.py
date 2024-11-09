@@ -7,7 +7,7 @@ from pathlib import Path
 from graph import ProjectDependencyGraph
 
 
-class TestFinder:
+class DotNetTestFinder:
     """
     Finds test projects affected by changes in source files.
     """

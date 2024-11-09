@@ -1,10 +1,7 @@
-from injector import Injector
-
-from find_test_projects import TestFinder
+from find_dotnet_test_projects import DotNetTestFinder
 from graph import ProjectDependencyGraph
 
-inj = Injector()
-finder = inj.get(TestFinder)
+finder = DotNetTestFinder()
 graph: ProjectDependencyGraph = {
     "References": [
         {"From": "\\B\\B.Common\\B.Common.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
