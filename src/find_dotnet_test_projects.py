@@ -3,7 +3,7 @@ Module for finding test projects affected by changes in source files.
 """
 
 from collections import defaultdict, deque
-from pathlib import Path, WindowsPath
+from pathlib import Path
 from graph import ProjectDependencyGraph
 
 
@@ -28,8 +28,8 @@ class DotNetTestFinder:
         if project_path.startswith("\\"):
             project_path = project_path[1:]
         # Replace Windows-style backslashes with Unix-style forward slashes.
-        project_path = WindowsPath(project_path)
-        return Path(project_path.as_posix())
+        # Assume that directory and file names do not contain backslashes.
+        return Path(project_path.replace("\\", "/"))
 
     def find_test_projects(self, file_paths: list[str], graph: ProjectDependencyGraph) -> list[str]:
         """
