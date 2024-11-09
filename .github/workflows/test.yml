@@ -44,7 +44,7 @@ jobs:
     # export PATH="$PATH:$HOME/.local/bin"
     - name: Test CLI
       run: |
-        export PATH="$PATH:$HOME/.local/bin"
-        paths=`find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'`
+        # export PATH="$PATH:$HOME/.local/bin"
+        paths=`poetry run find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'`
         [ "$paths" = "'A/A.Common.Tests/A.Common.Tests.csproj' 'B.Logic.Tests/B.Logic.Tests.csproj'" ]
 
