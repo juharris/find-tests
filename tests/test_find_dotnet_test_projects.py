@@ -5,11 +5,11 @@ finder = DotNetTestFinder()
 graph: ProjectDependencyGraph = {
     "References": [
         {"From": "\\B\\B.Common\\B.Common.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
-        {"From": "\\A\\A.Common.Tests\\A.Common.Tests.csproj", "To": "\\A\\A.Common\\A.Common.csproj"},
+        {"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"},
         {"From": "\\C\\C.Logic\\C.Logic.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
         {"From": "\\B\\B.Common.Tests\\B.Common.Tests.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
         {"From": "\\tests\\Many.Tests\\Many.Tests.csproj", "To": "\\B\\B.Common\\B.Common.csproj"},
-        {"From": "\\tests\\Many.Tests\\Many.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
+        {"From": "tests/Many.Tests/Many.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
         {"From": "\\tests\\Also.Tests\\Also.Tests.csproj", "To": "\\C\\C.Logic\\C.Logic.csproj"},
     ]
 }
