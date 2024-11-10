@@ -1,5 +1,6 @@
 # find-tests
 Finds tests to run based on the files changed.
+This tool is mainly made to work with .NET solutions for now.
 
 # Usage
 ## Install
@@ -13,7 +14,7 @@ find-tests <file paths as JSON or newline-separated list> <project dependency gr
 ```
 
 ### Examples:
-One file is changed and there is one test project that depends on the file:
+Example: One file is changed and there is one test project that depends on the file:
 ```shell
 find-tests '["A/A.Common/Class.cs"]' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}]}'
 ```
@@ -22,13 +23,20 @@ Returns:
 'A/A.Common.Tests/A.Common.Tests.csproj'
 ```
 
-One file is changed and there are two test projects that depend on the file, one is a transitive dependency:
+Example: One file is changed and there are two test projects that depend on the file, one is a transitive dependency:
 ```shell
 find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' '{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'
 ```
 Returns:
 ```
 'A/A.Common.Tests/A.Common.Tests.csproj' 'B.Logic.Tests/B.Logic.Tests.csproj'
+```
+
+If no tests are found, an empty string is returned.
+```shell
+$ test_projects=$(find-tests "$changedFiles" "$graph")
+$ [ "$test_projects" = "" ] && echo "No tests found."
+No tests found.
 ```
 
 ## Example in Continuous Integration
@@ -48,7 +56,7 @@ graph=$(DependenSee <code_path> -T ConsoleJson)
 
 Find the tests.
 ```shell
-find-tests "$changedFiles" "$graph"
+test_projects=$(find-tests "$changedFiles" "$graph")
 ```
 
 # Dev Setup

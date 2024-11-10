@@ -60,7 +60,6 @@ class DotNetTestFinder:
         for file_path in file_paths:
             project = self._get_project_for_file(file_path, project_folder_to_project_path)
             if project is None:
-                # TODO Maybe raise an exception because maybe all tests should run?
                 continue
             if project in visited_projects:
                 continue
