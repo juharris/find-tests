@@ -5,12 +5,12 @@ This tool is mainly made to work with .NET solutions for now.
 # Usage
 ## Install
 ```shell
-pip install git+git@github.com:juharris/find-tests.git
+pip install git+https://github.com/juharris/find-tests.git
 ```
 
 ## Commands
 ```shell
-find-tests <file paths as JSON or newline-separated list> <project dependency graph as JSON>
+find-tests <file paths as JSON or newline-separated list> <project dependency graph as JSON or path to a JSON file>
 ```
 
 ### Examples:
