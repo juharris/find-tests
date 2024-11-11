@@ -39,12 +39,12 @@ jobs:
         poetry run autopep8 --jobs 0 --exit-code --diff .
     - name: Test CLI
       run: |
-        expected_projects='A/A.Common.Tests/A.Common.Tests.csproj B.Logic.Tests/B.Logic.Tests.csproj'
+        expected_projects="'A/A.Common.Tests/A.Common.Tests.csproj' 'B.Logic.Tests/B.Logic.Tests.csproj'"
         graph='{"Projects":[{"Id": "A/A.Common/A.Common.csproj"}, {"Id": "B.Logic/B.Logic.csproj"}, {"Id": "A/A.Common.Tests/A.Common.Tests.csproj"}, {"Id": "B.Logic.Tests/B.Logic.Tests.csproj"}], "References":[{"From": "A/A.Common.Tests/A.Common.Tests.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic/B.Logic.csproj", "To": "A/A.Common/A.Common.csproj"}, {"From": "B.Logic.Tests/B.Logic.Tests.csproj", "To": "B.Logic/B.Logic.csproj"}]}'
-        paths=`poetry run find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' "${graph}"`
-        [ "${paths}" = "${expected_projects}" ]
+        project_paths=`poetry run find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' "${graph}"`
+        [ "${project_paths}" = "${expected_projects}" ]
 
         echo "${graph}" > graph.json
-        paths=`poetry run find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' graph.json`
-        [ "${paths}" = "${expected_projects}" ]
+        project_paths=`poetry run find-tests 'A/A.Common/Class1.cs\nA/A.Common/Class2.cs' graph.json`
+        [ "${project_paths}" = "${expected_projects}" ]
 
