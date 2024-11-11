@@ -12,7 +12,12 @@ def main():
         file_paths = json.loads(file_paths)
     else:
         file_paths = file_paths.replace('\r', '').split('\n')
-    graph = json.loads(sys.argv[2])
+    graph = sys.argv[2]
+    if graph.endswith('.json'):
+        with open(graph, encoding='utf-8') as f:
+            graph = json.load(f)
+    else:
+        graph = json.loads(graph)
     test_projects = finder.find_test_projects(file_paths, graph)
     # Print all so that they can easily be given to `dotnet test`.
     print(' '.join(f"'{p}'" for p in test_projects))
