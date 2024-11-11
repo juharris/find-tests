@@ -60,11 +60,11 @@ test_projects=$(find-tests "$changedFiles" "$graph")
 ```
 
 # Dev Setup
-Written using Python 3.12
+Written using Python 3.11
 
 Example Python environment initialization with Conda:
 ```shell
-conda create --yes --name find-tests python=3.12
+conda create --yes --name find-tests python=3.11
 conda activate find-tests
 ```
 
