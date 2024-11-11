@@ -51,7 +51,7 @@ Get the project dependency graph.
 For .NET, use [DependenSee](https://github.com/madushans/DependenSee).
 ```shell
 dotnet tool install DependenSee --global
-graph=$(DependenSee <code_path> -T ConsoleJson)
+graph=$(DependenSee . -T ConsoleJson)
 ```
 
 Find the tests.
